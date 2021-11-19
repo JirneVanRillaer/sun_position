@@ -4,23 +4,23 @@
 
 // total of days passed since the start of the year
 float days_passed(DT t) {
-  int daysInMonth[12] = {31, (t.yy % 4 == 0) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; //if (t.yy % 4 == 0) daysInMonth[1] = 29; // leap year
+  float daysInMonth[12] = {31.0, (t.yy % 4 == 0) ? 29.0 : 28.0, 31.0, 30.0, 31.0, 30.0, 31.0, 31.0, 30.0, 31.0, 30.0, 31.0}; //if (t.yy % 4 == 0) daysInMonth[1] = 29; // leap year
   float DP = 0;
   for (int i = 0; i < t.mm - 1; i++) DP += daysInMonth[i];  
-  DP += t.dd;
-  DP += t.h / 24;
-  DP += t.m / (24 * 60);
+  DP += (float)t.dd;
+  DP += (float)t.h / 24.0;
+  DP += (float)t.m / (24.0 * 60.0);
   return DP;
 }
 
-// convert DT object to LT
+// convert DateTime to LT
 float localTime(DT t) {
-  return (float)(t.h * 60 + t.m);
+  return (float)t.h * 60.0 + (float)t.m;
 }
 
 // local solar time meridian
-int LSTM (int offset) {
-  return 15 * offset;
+float LSTM (int offset) {
+  return 15.0 * (float)offset;
 }
 
 // equation of time
@@ -33,23 +33,23 @@ float EOT(DT t) {
 
 // time correction
 float TC(int offset, DT t, float longitude) {
-  return 4 * (longitude - (float)LSTM(offset)) + EOT(t);
+  return 4.0 * (longitude - (float)LSTM(offset)) + EOT(t);
 }
 
 // local solar time
 float LST(int offset, DT t, float longitude) {
-  return localTime(t) + (TC(offset, t, longitude) / 60);
+  return localTime(t) + (TC(offset, t, longitude) / 60.0);
 }
 
 // hour angle
 float HRA(int offset, DT t, float longitude) {
-  return 15 + (LST(offset, t, longitude) - 12);
+  return 15.0 * ((LST(offset, t, longitude) / 60.0) - 12.0);
 }
 
 // declination angle
 float DA(DT t) {
   float d = days_passed(t);
-  return 23.45 * degrees(sin(radians((360/365) * (d - 81))));
+  return 23.45 * sin(radians((360.0/365.0) * (d - 81.0)));
 }
 
 
