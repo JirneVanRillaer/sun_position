@@ -21,7 +21,7 @@ returns the amount of days passed since the start of the year
 ### float localTime(DT t)
 converts the DateTime to the amount of minutes passed since the start of the day
 
-### int LSTM(int offset)
+### float LSTM(int offset)
 returns the local standard time meridian in degrees
 
 ### float EOT(DT t)
