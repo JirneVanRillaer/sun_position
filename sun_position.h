@@ -1,3 +1,5 @@
+/* created by Jirne Van Rillaer */
+
 #ifndef SUN_POSITION_H
 #define SUN_POSITION_H
 
@@ -12,7 +14,8 @@ float TC(int offset, DateTime t, float longitude);
 float LST(int offset, DateTime t, float longitude);
 float HRA(int offset, DateTime t, float longitude);
 float DA(DateTime t);
-float EA(DateTime t, float latitude);
+
+float EA(DateTime t, float offset, float latitude, float longitude);
 float AA(DateTime t, float offset, float latitude, float longitude);
 
 #endif
