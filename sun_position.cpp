@@ -64,5 +64,5 @@ float EA(DT t, float offset, float latitude, float longitude) {
 // azimuth angle
 float AA(DT t, float offset, float latitude, float longitude) {
   float azan = degrees(acos((sin(radians(DA(t))) * cos(radians(latitude)) - cos(radians(DA(t))) * sin(radians(latitude)) * cos(radians(HRA(offset, t, longitude)))) / cos(radians(EA(t, offset, latitude, longitude)))));
-  return (LST(offset, t, longitude) < 0 || HRA(offset, t, longitude) < 0) ? azan : (360 - azan);
+  return (LST(offset, t, longitude) < 12 || HRA(offset, t, longitude) < 0) ? azan : (360 - azan);
 }
