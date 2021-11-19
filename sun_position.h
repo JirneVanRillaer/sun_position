@@ -16,7 +16,7 @@ struct DT {
 
 float days_passed(DT t);
 float localTime(DT t);
-int LSTM (int offset);
+float LSTM (int offset);
 float EOT (DT t);
 float TC(int offset, DT t, float longitude);
 float LST(int offset, DT t, float longitude);
