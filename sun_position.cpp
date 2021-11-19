@@ -1,3 +1,5 @@
+/* created by Jirne Van Rillaer */
+
 #include "sun_position.h";
 
 // total of days passed since the start of the year
@@ -22,10 +24,11 @@ int LSTM (int offset) {
 }
 
 // equation of time
-float EOT (DateTime t) {
+float EOT(DateTime t) {
   float d = days_passed(t);
-  float B = (360 / 365) * (d - 81);
-  return sin(2 * B) - 7.53 * cos(B) - 1.5 * sin(B);
+  float B = (360.0 / 365.0) * (d - 81.0);
+  B = radians(B);
+  return 9.87 * sin(2.0 * B) - (7.53 * cos(B)) - (1.5 * sin(B));
 }
 
 // time correction
@@ -46,19 +49,19 @@ float HRA(int offset, DateTime t, float longitude) {
 // declination angle
 float DA(DateTime t) {
   float d = days_passed(t);
-  return -23.45 * cos((360/365) * (d + 10));
+  return 23.45 * sin(radians((360/365) * (d - 81)));
 }
 
 
 // ==================================================================
 
 // elevation angle
-float EA(DateTime t, float latitude) {
-  float elan = 90 + latitude - DA(t);
-  return elan > 90 ? 180 - elan : elan;
+float EA(DateTime t, float offset, float latitude, float longitude) {
+  return degrees(asin(sin(radians(DA(t))) * sin(radians(latitude)) + cos(radians(DA(t))) * cos(radians(latitude)) * cos(radians(HRA(offset, t, longitude)))));
 }
 
 // azimuth angle
 float AA(DateTime t, float offset, float latitude, float longitude) {
-  return acos((sin(DA(t)) * cos(latitude) - cos(DA(t)) * sin(latitude) * cos(HRA(offset, t, longitude))) / cos(EA(t, latitude)));
+  float azan = degrees(acos((sin(radians(DA(t))) * cos(radians(latitude)) - cos(radians(DA(t))) * sin(radians(latitude)) * cos(radians(HRA(offset, t, longitude)))) / cos(radians(EA(t, offset, latitude, longitude)))));
+  return (LST(offset, t, longitude) < 0 || HRA(offset, t, longitude) < 0) ? azan : (360 - azan);
 }
