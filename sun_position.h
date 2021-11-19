@@ -1,3 +1,5 @@
+/* created by Jirne Van Rillaer */
+
 #ifndef SUN_POSITION_H
 #define SUN_POSITION_H
 
