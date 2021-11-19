@@ -4,7 +4,7 @@
 
 // total of days passed since the start of the year
 float days_passed(DT t) {
-  int daysInMonth[12] = {31, (t.yy % 4 == 0) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; //if (t.yy % 4 == 0) daysInMonth[1] = 29; // schrikkeljaar
+  int daysInMonth[12] = {31, (t.yy % 4 == 0) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; //if (t.yy % 4 == 0) daysInMonth[1] = 29; // leap year
   float DP = 0;
   for (int i = 0; i < t.mm - 1; i++) DP += daysInMonth[i];  
   DP += t.dd;
@@ -13,7 +13,7 @@ float days_passed(DT t) {
   return DP;
 }
 
-// convert DateTime to LT
+// convert DT object to LT
 float localTime(DT t) {
   return (float)(t.h * 60 + t.m);
 }
@@ -49,11 +49,12 @@ float HRA(int offset, DT t, float longitude) {
 // declination angle
 float DA(DT t) {
   float d = days_passed(t);
-  return 23.45 * sin(radians((360/365) * (d - 81)));
+  return 23.45 * degrees(sin(radians((360/365) * (d - 81))));
 }
 
 
-// ==================================================================
+
+
 
 // elevation angle
 float EA(DT t, float offset, float latitude, float longitude) {
